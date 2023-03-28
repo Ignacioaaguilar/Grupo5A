@@ -10,6 +10,7 @@ var pagos = {};
 var arrpagos = [];
 
 $(document).ready(function () {
+ 
   cargarFondos();
   obtenerCotizacionDolar();
 
@@ -23,6 +24,7 @@ $(document).ready(function () {
     next_fs = $(this).parent().next();
 
     if (validarAccount()) {
+     
       //Add Class Active
       $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
       //show the next fieldset
@@ -53,8 +55,7 @@ $(document).ready(function () {
 
     if (validarInformacionPersonal()) {
 
-      console.log(arrpersonales)
-      
+           
       //Add Class Active
       $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
@@ -85,7 +86,7 @@ $(document).ready(function () {
     next_fs = $(this).parent().next();
 
     if (validarPagos()) {
-        console.log(arrpagos)
+        
       //Add Class Active
       $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
@@ -725,8 +726,6 @@ function asignarPrecioAlquiler(){
 
   auto=$("#autos option:selected").val();
 
-  console.log(auto)
-
   switch (auto) {
     case "seleccione":
       $("#importe").val("Valor de la reserva");
@@ -765,5 +764,157 @@ function asignarPrecioAlquiler(){
 
   }
 
-
 }
+
+function generarResumen(){
+
+ 
+  if ((arrCuenta.length>0)||(arrpersonales.length>0)){
+    $("#modalResumen").modal("show");
+
+    if (arrCuenta.length>0){
+        cuenta=`<form>
+                  <h5 class="text-info">Datos de la Cuenta</h5>
+                  <div class="row ml-3">
+                  
+                    <div class="col">
+                      <address>
+                        <small><strong>Email: </strong></small> ${arrCuenta[0].email}                    
+                      </address>                  
+                    </div>
+                    <div class="col">
+                      <address>
+                        <small><strong>Usuario: </strong></small>${arrCuenta[0].usuario}
+                        
+                      </address>
+                      
+                    </div>
+                  </div>
+                </form>
+                <hr>`;
+
+        $("#cuenta").html(cuenta);
+    }
+
+    if (arrpersonales.length>0){
+        reserva=`<form>
+                    <h5 class="text-info">Datos de la Reserva</h5>
+                    <div class="row ml-3">                
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Nombre: </strong></small> ${arrpersonales[0].fname}                    
+                        </address>                  
+                      </div>
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Apellido: </strong></small>${arrpersonales[0].lname}                      
+                        </address>                    
+                      </div>
+
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Telefono: </strong></small> ${arrpersonales[0].tel}                    
+                        </address>                  
+                      </div>
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Cel: </strong></small>${arrpersonales[0].cel}                      
+                        </address>                    
+                      </div>
+
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Auto: </strong></small> ${arrpersonales[0].auto}                    
+                        </address>                  
+                      </div>
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Precio Alquiler: </strong></small>${arrpersonales[0].importePago}                      
+                        </address>                    
+                      </div>
+
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Fecha Inicio: </strong></small> ${arrpersonales[0].fechaInicio}                    
+                        </address>                  
+                      </div>
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Fecha Fin: </strong></small>${arrpersonales[0].fechaFin}                      
+                        </address>                    
+                      </div>
+                    </div>
+                  </form>
+                  <hr>`;
+        $("#reserva").html(reserva);
+
+    }
+
+
+    if (arrpagos.length>0){
+            pago=`<form>
+                    <h5 class="text-info">Informacion del Pago</h5>
+                    <div class="row ml-3">                
+                      <div class="col-md-6">
+                        <address>
+                          <small><strong>Titular Tarjeta: </strong></small> ${arrpagos[0].titularTarjeta}                    
+                        </address>                  
+                      </div>`;
+
+                      if (arrpagos[0].tarjCredito==true){
+                        pago +=`<div class="col-md-6">
+                                  <address>
+                                    <small><strong>Medio Pago: </strong></small>${arrpagos[0].tarjCredito}                      
+                                  </address>                    
+                                </div>`;
+
+                      }
+
+                      if (arrpagos[0].tarjDebito==true){
+                        pago +=`<div class="col-md-6">
+                                  <address>
+                                    <small><strong>Medio Pago: </strong></small>${arrpagos[0].tarjDebito}                      
+                                  </address>                    
+                                </div>`;
+
+                      }              
+                      
+
+                      pago +=` <div class="col-md-12">
+                            <address>
+                              <small><strong>Numero Tarjeta </strong></small> ${arrpagos[0].numeroTarjeta}                    
+                            </address>                  
+                          </div>             
+
+                      
+                    </div>
+                  </form>
+                  <hr>`;
+
+          $("#pago").html(pago);
+
+    }
+
+
+
+  }else{
+    Swal.fire({
+      title: "No hay datos para generar el resumen",
+      icon: "warning",
+      timer: "2000",
+      showConfirmButton: false,
+    });
+
+  }
+
+  
+}
+
+
+function generarPDF(){
+  
+  var doc = new jsPDF();
+  doc.text(20, 20, 'Hello world.');
+  doc.save('Test.pdf');
+  }
+
