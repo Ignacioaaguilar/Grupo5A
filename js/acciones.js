@@ -109,38 +109,11 @@ $(document).ready(function () {
           duration: 600,
         }
       );
+      generarPDF();
     }
   });
 
-  /* $(".previous").click(function () {
-    current_fs = $(this).parent();
-    previous_fs = $(this).parent().prev();
-
-    //Remove class active
-    $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-
-    //show the previous fieldset
-    previous_fs.show();
-
-    //hide the current fieldset with style
-    current_fs.animate(
-      { opacity: 0 },
-      {
-        step: function (now) {
-          // for making fielset appear animation
-          opacity = 1 - now;
-
-          current_fs.css({
-            display: "none",
-            position: "relative",
-          });
-          previous_fs.css({ opacity: opacity });
-        },
-        duration: 600,
-      }
-    );
-  }); */
-
+ 
   $("#previousAcount").click(function () {
     current_fs = $(this).parent();
     previous_fs = $(this).parent().prev();
@@ -864,7 +837,7 @@ function generarResumen(){
                       if (arrpagos[0].tarjCredito==true){
                         pago +=`<div class="col-md-6">
                                   <address>
-                                    <small><strong>Medio Pago: </strong></small>${arrpagos[0].tarjCredito}                      
+                                    <small><strong>Medio Pago: </strong></small>${"Tarjeta Credito"}                      
                                   </address>                    
                                 </div>`;
 
@@ -873,7 +846,7 @@ function generarResumen(){
                       if (arrpagos[0].tarjDebito==true){
                         pago +=`<div class="col-md-6">
                                   <address>
-                                    <small><strong>Medio Pago: </strong></small>${arrpagos[0].tarjDebito}                      
+                                    <small><strong>Medio Pago: </strong></small>${"Tarjeta Debito"}                      
                                   </address>                    
                                 </div>`;
 
@@ -912,9 +885,190 @@ function generarResumen(){
 
 
 function generarPDF(){
-  
-  var doc = new jsPDF();
-  doc.text(20, 20, 'Hello world.');
-  doc.save('Test.pdf');
+
+  if ((arrCuenta.length>0)||(arrpersonales.length>0)){
+        let email=arrCuenta[0].email;
+        let usuario=arrCuenta[0].usuario;
+
+        let nombre=arrpersonales[0].fname;
+        let apellido=arrpersonales[0].lname;
+        let telefono=arrpersonales[0].tel;
+        let cel=arrpersonales[0].cel;
+        let auto=arrpersonales[0].auto;  
+        let alquiler=arrpersonales[0].importePago;
+        let fechaFin=arrpersonales[0].fechaFin;
+        let fechaInicio=arrpersonales[0].fechaInicio;
+
+
+        let titularTarjeta=arrpagos[0].titularTarjeta;
+        let medioPagoDebito=arrpagos[0].tarjDebito;
+        let medioPagocredito=arrpagos[0].tarjCredito;
+        let mediopago="";
+
+        
+
+        if (medioPagoDebito==true){
+          mediopago="Tarjeta Debito"
+        }
+        if (medioPagocredito==true){
+          mediopago="Tarjeta Credito"
+        }
+
+        let numeroTarjeta=arrpagos[0].numeroTarjeta;
+
+
+        
+        var doc = new jsPDF();
+      
+        //RESUMEN DE LA RESERVA
+        doc.setFontSize(20);    
+        doc.text(`Resumen de la reserva`, 70, 20, { align: 'center'} );
+
+
+        //DATOS DE LA CUENTA
+        doc.setFontSize(18);
+        doc.setTextColor(13, 198, 231);
+        doc.text(20, 40, 'Datos de la cuenta');
+        
+        //EMAIL
+        doc.setTextColor(0, 0, 0);
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(30, 50, 'Email:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(48, 50, email);
+
+        //USUARIO
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(120, 50, 'Usuario:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(142, 50, usuario);
+
+        
+
+
+        //DATOS DE LA RESERVA
+
+        doc.setFontSize(18);
+        doc.setTextColor(13, 198, 231);
+        doc.text(20, 70, 'Datos de la Reserva');
+
+        //NOMBRE
+        doc.setTextColor(0, 0, 0);
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(30, 80, 'Nombre:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(52, 80, nombre); 
+
+        //APELLIDO
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(120, 80, 'Apellido:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(142, 80, apellido);
+
+        //TELEFONO
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(30, 90, 'Telefono:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(53, 90, telefono); 
+
+        //CELULAR
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(120, 90, 'Celular:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(140, 90, cel); 
+
+        //AUTO
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(30, 100, 'Auto:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(44, 100, auto); 
+
+        //PRECIO ALQUILER
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(120, 100, 'Precio Alquiler:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(158, 100, alquiler); 
+
+        //FECHA INICIO
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(30, 110, 'Fecha Inicio:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(63, 110, fechaInicio); 
+
+        //FECHA FIN
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(120, 110, 'Fecha Fin:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(148, 110, fechaFin);
+
+
+
+
+        //DATO PAGO
+        doc.setFontSize(18);
+        doc.setTextColor(13, 198, 231);
+        doc.text(20, 130, 'Informacion del Pago');
+
+        //TITULAR TARJETA
+        doc.setTextColor(0, 0, 0);
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(30, 140, 'Titular Tarjeta:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(65, 140, titularTarjeta);
+      
+
+
+
+        //MEDIO DE PAGO
+        doc.setTextColor(0, 0, 0);
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(120, 140, 'Medio Pago:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(150, 140, mediopago);
+
+        //NUMERO TARJETA
+        doc.setTextColor(0, 0, 0);
+        doc.setFontType('bold');
+        doc.setFontSize(14);
+        doc.text(30, 150, 'Numero Tarjeta:');
+        doc.setFontType('normal');
+        doc.setFontSize(12);
+        doc.text(70, 150, numeroTarjeta);
+
+        doc.save('PracticoIntegrador5A.pdf');
+
+      }else{
+        Swal.fire({
+          title: "No hay datos para generar el PDF",
+          icon: "warning",
+          timer: "2000",
+          showConfirmButton: false,
+        });
+    
+      }
   }
 
