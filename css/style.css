@@ -9104,12 +9104,12 @@ select.list-dt:focus {
 }
 
 /*The background card*/
-.card {
+ .card {
   z-index: 0;
   border: none;
   border-radius: 0.5rem;
   position: relative;
-}
+} 
 
 /*FieldSet headings*/
 .fs-title {
