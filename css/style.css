@@ -9272,6 +9272,10 @@ select.list-dt:focus {
   font-size: 15px;
 }
 
+form .error {
+  color: #ff0000;
+}
+
 
 
 

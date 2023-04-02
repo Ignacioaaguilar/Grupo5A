@@ -10,11 +10,14 @@ var pagos = {};
 var arrpagos = [];
 
 $(document).ready(function () {
- 
+
+   
   cargarFondos();
   obtenerCotizacionDolar();
 
+ 
   cargarFecha();
+  
 
   var current_fs, next_fs, previous_fs; //fieldsets
   var opacity;
@@ -197,7 +200,7 @@ $(document).ready(function () {
     let cpassValido;
     let cpassValidoLong;
 
-    email = $("#email").val();
+    email = $("#email").val();    
     usuario = $("#userName").val();
     password = $("#password").val();
     cpassword = $("#cpassword").val();
@@ -401,6 +404,56 @@ $(document).ready(function () {
       });
     }
   }
+
+
+  $("#loginform").validate({
+    rules:{
+      nombreApellido:{
+        required:true
+      },
+      email:{
+        required:true,
+        email: true
+      },
+      telefono:{
+        required:true,
+        minlength: 2, maxlength: 11
+       
+       
+      },
+      asunto:{
+        required:true
+      },
+      mensaje: { required:true, minlength: 2},
+    },
+    messages:{
+      nombreApellido:{
+        required:"Debe ingresar el Nombre y Apellido"
+      },
+      email:{
+        required:"Debe ingresar el Mail"
+      },
+      telefono : "El campo Teléfono no contiene un formato correcto.",
+
+      asunto:{
+        required:"Debe ingresar el Asunto"
+      },
+      mensaje : "El campo Mensaje es obligatorio",
+    },
+    submitHandler: function(form){
+      enviarMail();
+      $("#nombreApellido").val("");
+      $("#email").val("");
+      $("#telefono").val("");
+      $("#asunto").val("");
+      $("#mensaje").val("");
+      
+  }
+ 
+
+  })
+
+
 });
 
 function validarPagos() { 
@@ -886,7 +939,7 @@ function generarResumen(){
 
 function generarPDF(){
 
-  if ((arrCuenta.length>0)||(arrpersonales.length>0)){
+  if ((arrCuenta.length>0)&&(arrpersonales.length>0)&&(arrpagos.length>0)){
         let email=arrCuenta[0].email;
         let usuario=arrCuenta[0].usuario;
 

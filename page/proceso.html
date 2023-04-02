@@ -9,17 +9,14 @@
         <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" type="text/css" href="../css/style.css">
-        <link rel="stylesheet"
-            href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-        <link
-            href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
-            rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"  rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 
         
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
 
 
     </head>
@@ -81,7 +78,7 @@
                                    
                                     <div class="col-md-12 mx-0">
                                         <button type="button" class="btn btn-outline-success btn-sm" onclick="generarResumen()">Generación de Resumen</button>
-                                        <button type="button" class="btn btn-outline-info btn-sm" onclick="generarPDF()">Exportación a PDF</button>
+                                        <!-- <button type="button" class="btn btn-outline-info btn-sm" onclick="generarPDF()">Exportación a PDF</button> -->
                                         <form id="msform">
                                             <!-- progressbar -->
                                             <ul id="progressbar">
@@ -97,10 +94,7 @@
                                                     <h2 class="fs-title">
                                                         Datos de la cuenta
                                                     </h2>
-                                                    <input type="email"
-                                                        name="email"
-                                                        id="email"
-                                                        placeholder="Email"/>
+                                                    <input type="email"  name="email" id="email" placeholder="Email"/>
                                                     <input type="text"
                                                         name="uname"
                                                         id="userName"
@@ -261,6 +255,8 @@
                                                                     type="number"
                                                                     name="cardno"
                                                                     id="numeroTarjeta"
+                                                                    minlength="16"
+                                                                    maxlength="16"
                                                                     placeholder="****************"/>
                                                             </div>
                                                             <div class="col-3">
@@ -270,6 +266,8 @@
                                                                     id="cvcpwd"
                                                                     type="password"
                                                                     name="cvcpwd"
+                                                                    minlength="3"
+                                                                    maxlength="3"
                                                                     placeholder="***"
                                                                     />
                                                             </div>
